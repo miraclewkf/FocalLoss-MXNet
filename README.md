@@ -15,7 +15,15 @@ from metric import *
 eval_metric = mx.metric.CompositeEvalMetric()
 eval_metric.add(FocalLoss())
 
+model = mx.mod.Module(
+        context=mx.gpu(0),
+        symbol=symbol,
+        label_names=('focalloss_label',)
+    )
+
 model.fit(...,
 	  eval_metric=eval_metric,
 	  ...)
 ```
+
+Attention: The value of alpha and gamma in `metric.py` should be equal to `mx.symbol.Custom(...,alpha, gamma)`
